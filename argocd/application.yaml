@@ -1,0 +1,17 @@
+server:
+  additionalApplications:
+    - name: app-of-apps
+      namespace: argocd
+      project: default
+      source:
+        repoURL: https://github.com/jakuboskera/argocd-kind-terraform.git
+        targetRevision: HEAD
+        path: argocd/apps
+        directory:
+          recurse: true
+      destination:
+        server: https://kubernetes.default.svc
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook
+  namespace: argocd
+spec:
+  destination:
+    namespace: guestbook
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: guestbook
+    repoURL: https://jakuboskera.github.io/charts
+    targetRevision: 0.1.5
+    helm:
+      releaseName: guestbook
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
