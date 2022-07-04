@@ -17,7 +17,7 @@ pre-commit-all: ## Manually run all pre-commit hooks on a repository (all files)
 tf-init: ## Make terraform init
 	terraform -chdir=terraform init
 
-tf-apply: ## Creates infrastructure based on terraform/main.tf using terraform
+tf-apply: tf-init ## Creates infrastructure based on terraform/main.tf using terraform
 	terraform -chdir=terraform apply -auto-approve
 
 tf-destroy: ## Destroys infrastructure based on terraform/main.tf using terraform

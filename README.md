@@ -12,11 +12,11 @@ It also deploy basic application [Guestbook](https://github.com/jakuboskera/gues
   - [📖 TOC](#-toc)
   - [⚠️ Prerequisites](#️-prerequisites)
   - [🏁 Get started](#-get-started)
-    - [🚀 Create infrastructure](#-create-infrastructure)
+    - [🚀 Create an infrastructure](#-create-an-infrastructure)
       - [Get initial argocd password for user `admin`](#get-initial-argocd-password-for-user-admin)
       - [Access to Argo CD](#access-to-argo-cd)
       - [Access to Guestbook](#access-to-guestbook)
-    - [🧹 Destroy infrastructure](#-destroy-infrastructure)
+    - [🧹 Destroy an infrastructure](#-destroy-an-infrastructure)
 
 ## ⚠️ Prerequisites
 
@@ -44,21 +44,13 @@ It also deploy basic application [Guestbook](https://github.com/jakuboskera/gues
     make
     ```
 
-### 🚀 Create infrastructure
+### 🚀 Create an infrastructure
 
 To create an infrastructure based on `terraform/main.tf`
 
-1. initialize a Terraform project
-
-    ```bash
-    make tf-init
-    ```
-
-1. apply a Terraform manifests
-
-    ```bash
-    make tf-apply
-    ```
+```bash
+make tf-apply
+```
 
 After some minutes (max 5) it creates:
 
@@ -88,7 +80,7 @@ To port-forward to guestbook app, it will be available on <http://localhost:5000
 make guestbook-port-forward
 ```
 
-### 🧹 Destroy infrastructure
+### 🧹 Destroy an infrastructure
 
 To destroy infrastructure based on `terraform/main.tf`
 
