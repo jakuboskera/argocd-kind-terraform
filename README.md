@@ -66,7 +66,7 @@ make argocd-get-password
 
 #### Access to Argo CD
 
-T port-forward to argocd app, it will be available on <http://localhost:8080>
+To port-forward to argocd app, it will be available on <http://localhost:8080>
 
 ```bash
 make argocd-port-forward
