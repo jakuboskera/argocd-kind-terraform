@@ -1,7 +1,7 @@
 # argocd-kind-terraform
 
 This repository shows how to use [Terraform](https://www.terraform.io) and
-[Argo CD](https://argo-cd.readthedocs.io/en/stable) to create and manage
+[ArgoCD](https://argo-cd.readthedocs.io/en/stable) to create and manage
 a Kubernetes cluster on [kind](https://kind.sigs.k8s.io).
 
 It also deploy basic application [Guestbook](https://github.com/jakuboskera/guestbook).
@@ -14,7 +14,7 @@ It also deploy basic application [Guestbook](https://github.com/jakuboskera/gues
   - [🏁 Get started](#-get-started)
     - [🚀 Create an infrastructure](#-create-an-infrastructure)
       - [Get initial argocd password for user `admin`](#get-initial-argocd-password-for-user-admin)
-      - [Access to Argo CD](#access-to-argo-cd)
+      - [Access to ArgoCD](#access-to-argocd)
       - [Access to Guestbook](#access-to-guestbook)
     - [🧹 Destroy an infrastructure](#-destroy-an-infrastructure)
 
@@ -55,7 +55,7 @@ make tf-apply
 After some minutes (max 5) it creates:
 
 1. 1-node K8s cluster
-1. running Argo CD
+1. running ArgoCD
 1. running basic application Guestbook
 
 #### Get initial argocd password for user `admin`
@@ -64,9 +64,9 @@ After some minutes (max 5) it creates:
 make argocd-get-password
 ```
 
-#### Access to Argo CD
+#### Access to ArgoCD
 
-To port-forward to argocd app, it will be available on <http://localhost:8080>
+To port-forward to ArgoCD, it will be available on <http://localhost:8080>
 
 ```bash
 make argocd-port-forward
@@ -74,7 +74,7 @@ make argocd-port-forward
 
 #### Access to Guestbook
 
-To port-forward to guestbook app, it will be available on <http://localhost:5000>
+To port-forward to Guestbook, it will be available on <http://localhost:5000>
 
 ```bash
 make guestbook-port-forward
