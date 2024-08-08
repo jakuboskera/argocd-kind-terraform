@@ -42,10 +42,21 @@ resource "helm_release" "argocd" {
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
   namespace        = "argocd"
-  version          = "4.9.11"
+  version          = "7.4.1"
+  wait             = true
   create_namespace = true
+}
+
+resource "helm_release" "argocd-apps" {
+  name             = "argocd-apps"
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argocd-apps"
+  namespace        = "argocd"
+  version          = "2.0.0"
 
   values = [
     file("../argocd/application.yaml")
   ]
+
+  depends_on = [ helm_release.argocd ]
 }
