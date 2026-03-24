@@ -27,11 +27,6 @@ jobs:
         working-directory: terraform
         run: terraform apply -auto-approve
 
-      - name: Wait for ArgoCD pods to be ready
-        run: |
-          kubectl --kubeconfig terraform/my-cluster-config \
-            wait --for=condition=Ready pods --all -n argocd --timeout=300s
-
       - name: Wait for ArgoCD Application 'guestbook' to be synced and healthy
         run: |
           echo "Waiting for ArgoCD to deploy guestbook application..."
