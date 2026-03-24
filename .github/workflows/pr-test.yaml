@@ -1,0 +1,64 @@
+name: PR Test - Terraform Apply
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  terraform-apply:
+    name: Terraform Init & Apply
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Terraform Apply
+        working-directory: terraform
+        run: terraform apply -auto-approve
+
+      - name: Wait for ArgoCD pods to be ready
+        run: |
+          kubectl --kubeconfig terraform/my-cluster-config \
+            wait --for=condition=Ready pods --all -n argocd --timeout=300s
+
+      - name: Wait for ArgoCD Application 'guestbook' to be synced and healthy
+        run: |
+          echo "Waiting for ArgoCD to deploy guestbook application..."
+          for i in $(seq 1 60); do
+            HEALTH=$(kubectl --kubeconfig terraform/my-cluster-config \
+              -n argocd get application guestbook \
+              -o jsonpath='{.status.health.status}' 2>/dev/null || echo "NotFound")
+            SYNC=$(kubectl --kubeconfig terraform/my-cluster-config \
+              -n argocd get application guestbook \
+              -o jsonpath='{.status.sync.status}' 2>/dev/null || echo "NotFound")
+            echo "Attempt $i/60: health=$HEALTH sync=$SYNC"
+            if [ "$HEALTH" = "Healthy" ] && [ "$SYNC" = "Synced" ]; then
+              echo "Guestbook application is Healthy and Synced!"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Timed out waiting for guestbook application"
+          kubectl --kubeconfig terraform/my-cluster-config -n argocd get application guestbook -o yaml || true
+          exit 1
+
+      - name: Verify guestbook pods are running
+        run: |
+          kubectl --kubeconfig terraform/my-cluster-config \
+            wait --for=condition=Ready pods --all -n guestbook --timeout=300s
+
+      - name: Verify guestbook service exists
+        run: |
+          kubectl --kubeconfig terraform/my-cluster-config \
+            get svc guestbook -n guestbook
