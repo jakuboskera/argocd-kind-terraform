@@ -7,6 +7,17 @@
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Bump kind node image in Terraform",
+      "fileMatch": ["terraform/main\\.tf$"],
+      "matchStrings": [
+        "image\\s*=\\s*\"(?<depName>kindest/node):(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ],
   "packageRules": [
     {
       "description": "Automerge all Helm chart updates",
@@ -18,6 +29,17 @@
       "description": "Automerge all Terraform provider updates",
       "matchManagers": ["terraform"],
       "matchDatasources": ["terraform-provider"],
+      "automerge": true
+    },
+    {
+      "description": "Automerge ArgoCD application chart updates",
+      "matchManagers": ["argocd"],
+      "automerge": true
+    },
+    {
+      "description": "Automerge kind node image updates",
+      "matchManagers": ["custom.regex"],
+      "matchPackageNames": ["kindest/node"],
       "automerge": true
     }
   ]
