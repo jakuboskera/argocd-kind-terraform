@@ -1,28 +1,3 @@
-terraform {
-  required_providers {
-    kind = {
-      source  = "tehcyx/kind"
-      version = "0.5.1"
-    }
-
-    helm = {
-      source  = "hashicorp/helm"
-      version = "2.14.1"
-    }
-  }
-}
-
-provider "kind" {}
-
-provider "helm" {
-  kubernetes {
-    host                   = kind_cluster.my-cluster.endpoint
-    cluster_ca_certificate = kind_cluster.my-cluster.cluster_ca_certificate
-    client_certificate     = kind_cluster.my-cluster.client_certificate
-    client_key             = kind_cluster.my-cluster.client_key
-  }
-}
-
 resource "kind_cluster" "my-cluster" {
   name           = "my-cluster"
   wait_for_ready = "true"
