@@ -7,7 +7,7 @@ resource "kind_cluster" "my-cluster" {
 
     node {
       role  = "control-plane"
-      image = "kindest/node:v1.35.1"
+      image = "kindest/node:v1.36.1"
     }
   }
 }
